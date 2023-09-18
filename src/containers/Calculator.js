@@ -41,7 +41,10 @@ function App() {
   const operatorClick = (operator) => {
     // if there was a previous operator recorded as having been clicked, perform
     // the operation for the previous operator
-    if (previousTotal && previousOperator) {
+    if (previousTotal !== null && previousOperator) {
+      if (operator === "/" && runningTotal === 0) {
+        setRunningTotal("Error")
+      } else {
       switch (previousOperator) {
         case "+":
           add(runningTotal);
@@ -57,6 +60,7 @@ function App() {
           break;
       }
     }
+  }
 
     // if the 'equals' button was clicked, clear the previous operator, otherwise
     // record what the previous operator was
@@ -90,10 +94,14 @@ function App() {
   };
 
   const divide = (number) => {
+    if (parseFloat(number) === 0) {
+      setRunningTotal("Error")
+    } else {
     let calculatedNumber = parseFloat(previousTotal) / parseFloat(number);
     setRunningTotal(calculatedNumber);
     setCalculatedTotal(calculatedNumber);
   };
+}
 
   return (
     <div className="container">
